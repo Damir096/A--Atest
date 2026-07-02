@@ -136,25 +136,30 @@
     <header class="hero-section">
         <div class="container">
             <div class="hero-content fade-in-up">
-                <!-- Monogram at the top of the hero section -->
-                <div class="hero-monogram">
-                    <span class="monogram-letter style-1">А</span>
-                    <span class="monogram-divider">
-                        <svg width="40" height="40" viewBox="0 0 40 40">
-                            <path d="M20,4 L20,36 M4,20 L36,20" stroke="#b18f6a" stroke-width="1" opacity="0.5"/>
-                            <circle cx="20" cy="20" r="6" fill="none" stroke="#b18f6a" stroke-width="1.2"/>
-                            <circle cx="20" cy="20" r="2" fill="#b18f6a"/>
-                        </svg>
-                    </span>
-                    <span class="monogram-letter style-2">А</span>
-                </div>
                 <div class="hero-arch-scene">
                     <!-- Full-height Floral Arch SVG - same height as image -->
                     <svg class="floral-arch-svg" viewBox="0 0 360 580" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                        <!-- Outer glow arch line -->
+                        <path d="M18,580 L18,175 A162,162 0 0,1 342,175 L342,580" fill="none" stroke="#e3d1b0" stroke-width="4.5" opacity="0.25"/>
                         <!-- Outer arch frame - FULL HEIGHT solid line -->
                         <path d="M18,580 L18,175 A162,162 0 0,1 342,175 L342,580" fill="none" stroke="#b18f6a" stroke-width="2.2"/>
                         <!-- Inner arch frame line -->
                         <path d="M30,580 L30,177 A150,150 0 0,1 330,177 L330,580" fill="none" stroke="#d4b896" stroke-width="0.9" opacity="0.5"/>
+
+                        <!-- Golden hanging drops/beads -->
+                        <g fill="#b18f6a" opacity="0.75">
+                            <!-- Left drop -->
+                            <line x1="90" y1="150" x2="90" y2="185" stroke="#b18f6a" stroke-width="0.8"/>
+                            <circle cx="90" cy="185" r="2.5"/>
+                            
+                            <!-- Middle drop -->
+                            <line x1="180" y1="140" x2="180" y2="190" stroke="#b18f6a" stroke-width="0.8"/>
+                            <polygon points="180,186 183,190 180,194 177,190" fill="#b18f6a"/>
+                            
+                            <!-- Right drop -->
+                            <line x1="270" y1="150" x2="270" y2="185" stroke="#b18f6a" stroke-width="0.8"/>
+                            <circle cx="270" cy="185" r="2.5"/>
+                        </g>
 
                         <!-- === TOP CENTER flower cluster === -->
                         <g transform="translate(180, 30)">
@@ -199,8 +204,12 @@
                         </g>
 
                         <!-- === LEFT SIDE - full vine === -->
+                        <!-- Primary vine -->
                         <path d="M18,185 Q0,230 18,280 Q4,320 18,360 Q2,400 18,440 Q4,480 18,530" fill="none" stroke="#a8b890" stroke-width="1.4" opacity="0.6"/>
-                        <!-- Left flowers on vine -->
+                        <!-- Secondary interwoven vine for density -->
+                        <path d="M12,185 Q22,225 10,275 Q22,315 12,355 Q20,395 10,435 Q22,475 12,525" fill="none" stroke="#b8c8a0" stroke-width="1.1" opacity="0.45"/>
+
+                        <!-- Left flowers & extra leaves on vine -->
                         <g transform="translate(10, 250)">
                             <circle cx="0" cy="0" r="5.5" fill="#e8c9a0" opacity="0.85"/>
                             <circle cx="0" cy="0" r="2.5" fill="#b18f6a"/>
@@ -209,8 +218,17 @@
                             <ellipse cx="0" cy="9" rx="3" ry="5.5" fill="#d4b896" opacity="0.8"/>
                             <ellipse cx="-9" cy="0" rx="5.5" ry="3" fill="#d4b896" opacity="0.8"/>
                         </g>
+                        <!-- Dense twin leaves and extra buds left -->
+                        <ellipse cx="10" cy="210" rx="9" ry="3" fill="#a8b890" opacity="0.5" transform="rotate(-30 10 210)"/>
+                        <ellipse cx="6" cy="225" rx="7" ry="2.5" fill="#b8c8a0" opacity="0.4" transform="rotate(15 6 225)"/>
+                        
                         <ellipse cx="10" cy="310" rx="11" ry="4" fill="#a8b890" opacity="0.6" transform="rotate(-38 10 310)"/>
                         <ellipse cx="14" cy="340" rx="9" ry="3.5" fill="#a8b890" opacity="0.55" transform="rotate(25 14 340)"/>
+                        <ellipse cx="5" cy="325" rx="8" ry="3" fill="#b8c8a0" opacity="0.5" transform="rotate(-10 5 325)"/>
+                        <!-- Small flower bud left -->
+                        <circle cx="20" cy="290" r="3" fill="#d4b896" opacity="0.75"/>
+                        <circle cx="18" cy="360" r="3" fill="#e8c9a0" opacity="0.7"/>
+
                         <g transform="translate(10, 400)">
                             <circle cx="0" cy="0" r="4.5" fill="#e8c9a0" opacity="0.8"/>
                             <circle cx="0" cy="0" r="2" fill="#b18f6a"/>
@@ -220,6 +238,10 @@
                             <ellipse cx="-8" cy="0" rx="5" ry="2.5" fill="#d4b896" opacity="0.75"/>
                         </g>
                         <ellipse cx="12" cy="460" rx="10" ry="3.5" fill="#a8b890" opacity="0.5" transform="rotate(-30 12 460)"/>
+                        <ellipse cx="6" cy="445" rx="8" ry="3" fill="#b8c8a0" opacity="0.45" transform="rotate(40 6 445)"/>
+                        <!-- Small flower bud left -->
+                        <circle cx="18" cy="475" r="2.5" fill="#e8c9a0" opacity="0.75"/>
+
                         <g transform="translate(14, 510)">
                             <circle cx="0" cy="0" r="4" fill="#e8c9a0" opacity="0.7"/>
                             <circle cx="0" cy="0" r="1.8" fill="#b18f6a"/>
@@ -228,10 +250,15 @@
                             <ellipse cx="0" cy="7" rx="2.2" ry="4.5" fill="#d4b896" opacity="0.65"/>
                             <ellipse cx="-7" cy="0" rx="4.5" ry="2.2" fill="#d4b896" opacity="0.65"/>
                         </g>
+                        <ellipse cx="8" cy="540" rx="9" ry="3" fill="#a8b890" opacity="0.4" transform="rotate(-20 8 540)"/>
 
                         <!-- === RIGHT SIDE - full vine === -->
+                        <!-- Primary vine -->
                         <path d="M342,185 Q360,230 342,280 Q356,320 342,360 Q358,400 342,440 Q356,480 342,530" fill="none" stroke="#a8b890" stroke-width="1.4" opacity="0.6"/>
-                        <!-- Right flowers on vine -->
+                        <!-- Secondary interwoven vine for density -->
+                        <path d="M348,185 Q338,225 350,275 Q338,315 348,355 Q340,395 350,435 Q338,475 348,525" fill="none" stroke="#b8c8a0" stroke-width="1.1" opacity="0.45"/>
+
+                        <!-- Right flowers & extra leaves on vine -->
                         <g transform="translate(350, 250)">
                             <circle cx="0" cy="0" r="5.5" fill="#e8c9a0" opacity="0.85"/>
                             <circle cx="0" cy="0" r="2.5" fill="#b18f6a"/>
@@ -240,8 +267,17 @@
                             <ellipse cx="0" cy="9" rx="3" ry="5.5" fill="#d4b896" opacity="0.8"/>
                             <ellipse cx="9" cy="0" rx="5.5" ry="3" fill="#d4b896" opacity="0.8"/>
                         </g>
+                        <!-- Dense twin leaves and extra buds right -->
+                        <ellipse cx="350" cy="210" rx="9" ry="3" fill="#a8b890" opacity="0.5" transform="rotate(30 350 210)"/>
+                        <ellipse cx="354" cy="225" rx="7" ry="2.5" fill="#b8c8a0" opacity="0.4" transform="rotate(-15 354 225)"/>
+
                         <ellipse cx="350" cy="310" rx="11" ry="4" fill="#a8b890" opacity="0.6" transform="rotate(38 350 310)"/>
                         <ellipse cx="346" cy="340" rx="9" ry="3.5" fill="#a8b890" opacity="0.55" transform="rotate(-25 346 340)"/>
+                        <ellipse cx="355" cy="325" rx="8" ry="3" fill="#b8c8a0" opacity="0.5" transform="rotate(10 355 325)"/>
+                        <!-- Small flower bud right -->
+                        <circle cx="340" cy="290" r="3" fill="#d4b896" opacity="0.75"/>
+                        <circle cx="342" cy="360" r="3" fill="#e8c9a0" opacity="0.7"/>
+
                         <g transform="translate(350, 400)">
                             <circle cx="0" cy="0" r="4.5" fill="#e8c9a0" opacity="0.8"/>
                             <circle cx="0" cy="0" r="2" fill="#b18f6a"/>
@@ -251,6 +287,10 @@
                             <ellipse cx="8" cy="0" rx="5" ry="2.5" fill="#d4b896" opacity="0.75"/>
                         </g>
                         <ellipse cx="348" cy="460" rx="10" ry="3.5" fill="#a8b890" opacity="0.5" transform="rotate(30 348 460)"/>
+                        <ellipse cx="354" cy="445" rx="8" ry="3" fill="#b8c8a0" opacity="0.45" transform="rotate(-40 354 445)"/>
+                        <!-- Small flower bud right -->
+                        <circle cx="342" cy="475" r="2.5" fill="#e8c9a0" opacity="0.75"/>
+
                         <g transform="translate(346, 510)">
                             <circle cx="0" cy="0" r="4" fill="#e8c9a0" opacity="0.7"/>
                             <circle cx="0" cy="0" r="1.8" fill="#b18f6a"/>
@@ -259,6 +299,7 @@
                             <ellipse cx="0" cy="7" rx="2.2" ry="4.5" fill="#d4b896" opacity="0.65"/>
                             <ellipse cx="7" cy="0" rx="4.5" ry="2.2" fill="#d4b896" opacity="0.65"/>
                         </g>
+                        <ellipse cx="352" cy="540" rx="9" ry="3" fill="#a8b890" opacity="0.4" transform="rotate(20 352 540)"/>
 
                         <!-- Diamond accents -->
                         <path d="M174,24 L180,14 L186,24 L180,34 Z" fill="#b18f6a"/>
@@ -277,6 +318,18 @@
 
                 <!-- Names block - redesigned -->
                 <div class="hero-names-wrapper">
+                    <!-- Monogram placed under the arch scene, above names -->
+                    <div class="hero-monogram">
+                        <span class="monogram-letter style-1">А</span>
+                        <span class="monogram-divider">
+                            <svg width="40" height="40" viewBox="0 0 40 40">
+                                <path d="M20,4 L20,36 M4,20 L36,20" stroke="#b18f6a" stroke-width="1" opacity="0.5"/>
+                                <circle cx="20" cy="20" r="6" fill="none" stroke="#b18f6a" stroke-width="1.2"/>
+                                <circle cx="20" cy="20" r="2" fill="#b18f6a"/>
+                            </svg>
+                        </span>
+                        <span class="monogram-letter style-2">А</span>
+                    </div>
                     <h2 class="hero-names">Алтынбек <span class="amp-divider">және</span> Аяужан</h2>
                     <p class="hero-date">26.09.2026</p>
                 </div>

@@ -284,7 +284,7 @@ body.scroll-locked {
 }
 
 .welcome-date {
-    font-size: 0.95rem;
+    font-size: 1.25rem;
     letter-spacing: 2px;
     color: var(--text-dark);
     display: block;
@@ -302,7 +302,7 @@ body.scroll-locked {
 }
 
 .welcome-title {
-    font-size: 1.05rem;
+    font-size: 1.25rem;
     font-family: var(--serif);
     color: var(--text-dark);
     margin-bottom: 15px;
@@ -550,12 +550,12 @@ body.scroll-locked {
 
 /* === 8. INVITATION SECTION === */
 .pre-title {
-    font-size: 1.05rem;
+    font-size: 1.25rem;
     font-family: var(--serif);
     color: var(--text-dark);
     max-width: 440px;
     margin: 0 auto 20px;
-    line-height: 1.45;
+    line-height: 1.6;
 }
 
 .ornament-divider {
@@ -770,7 +770,7 @@ body.scroll-locked {
 }
 
 .dress-note {
-    font-size: 0.85rem;
+    font-size: 1.15rem;
     color: var(--text-dark);
     font-style: italic;
     margin-top: 15px;
@@ -835,7 +835,7 @@ body.scroll-locked {
 }
 
 .timeline-item .event {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     font-family: var(--serif);
     color: var(--text-dark);
 }
@@ -875,7 +875,7 @@ body.scroll-locked {
 }
 
 .timer-block p {
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--text-dark);
@@ -1099,7 +1099,7 @@ input[type="radio"]:checked + .custom-radio::after {
     padding: 40px 0;
     text-align: center;
     border-top: 1px solid rgba(46, 68, 91, 0.1);
-    font-size: 0.85rem;
+    font-size: 1.05rem;
     color: var(--text-dark);
     font-family: var(--serif);
 }
@@ -1287,8 +1287,8 @@ input[type="radio"]:checked + .custom-radio::after {
 .hero-date {
     color: #7a6040;
     font-family: var(--serif);
-    font-size: 1.05rem;
-    letter-spacing: 2px;
+    font-size: 1.2rem;
+    letter-spacing: 3px;
     margin-top: 4px;
 }
 
@@ -1296,7 +1296,7 @@ input[type="radio"]:checked + .custom-radio::after {
 .hero-arch-scene {
     position: relative;
     width: 300px;
-    margin: 20px auto 10px;
+    margin: 95px auto 10px;
 }
 .hero-arch-scene .floral-arch-svg {
     position: absolute;
@@ -1329,20 +1329,21 @@ input[type="radio"]:checked + .custom-radio::after {
     display: block;
     text-align: center;
     font-family: var(--serif);
-    font-size: 1rem;
-    color: #7a6040;
-    letter-spacing: 1.5px;
-    margin-top: 14px;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #8a6a3a;
+    letter-spacing: 4px;
+    margin-top: 16px;
+    text-transform: uppercase;
 }
 
-/* === Hero Monogram (new A & A) === */
 .hero-monogram {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
-    margin-top: 75px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 .monogram-letter {
     line-height: 1;
@@ -1368,21 +1369,21 @@ input[type="radio"]:checked + .custom-radio::after {
     opacity: 0.75;
 }
 
-/* === Hero names - Kazakh, readable === */
 .hero-names {
-    font-family: var(--serif);
-    font-weight: 600;
-    font-size: 1.55rem;
-    color: #4a3218;
-    margin-bottom: 10px;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-    text-shadow: 0 1px 4px rgba(255,252,248,0.9);
+    font-family: var(--cursive);
+    font-weight: 600; /* Rosa Marena calligraphic font */
+    font-size: 2.1rem;
+    color: #5a3d1e;
+    margin-bottom: 8px;
+    line-height: 1.2;
+    text-shadow: none;
+    white-space: nowrap;
 }
 .amp-divider {
-    font-weight: 300;
+    font-family: var(--serif);
+    font-weight: normal;
     font-size: 1.1rem;
     color: #957332;
-    font-style: italic;
-    margin: 0 4px;
+    font-style: normal;
+    margin: 0 6px;
 }
