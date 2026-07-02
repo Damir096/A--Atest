@@ -283,29 +283,12 @@ body.scroll-locked {
     transform: rotate(180deg);
 }
 
-.welcome-date {
-    font-size: 1.25rem;
-    letter-spacing: 2px;
-    color: var(--text-dark);
-    display: block;
-    margin-bottom: 5px;
-    font-family: var(--serif);
+.welcome-monogram {
+    margin: 30px 0 35px !important;
 }
-
-.welcome-names {
-    font-family: var(--cursive);
-    font-weight: 100;
-    font-size: 2.3rem;
-    color: var(--gold);
-    line-height: 1.2;
-    margin: 12px 0;
-}
-
-.welcome-title {
-    font-size: 1.25rem;
-    font-family: var(--serif);
-    color: var(--text-dark);
-    margin-bottom: 15px;
+.welcome-monogram .monogram-letter.style-1,
+.welcome-monogram .monogram-letter.style-2 {
+    font-size: 5.2rem !important;
 }
 
 .welcome-btn {
@@ -1172,6 +1155,28 @@ input[type="radio"]:checked + .custom-radio::after {
     .hosts-names {
         font-size: 2.4rem;
     }
+    
+    /* Mobile arch scene scaling so nothing overflows */
+    .hero-arch-scene {
+        width: 280px;
+    }
+    .hero-arch-scene .hero-illustration {
+        width: 280px;
+        height: 440px;
+    }
+    .hero-arch-scene .floral-arch-svg {
+        width: 330px;
+        height: 530px;
+        left: -25px;
+        top: -45px;
+    }
+}
+
+/* iOS Safari / Mobile Background Fix */
+@media (max-width: 768px) {
+    body, .welcome-overlay, .bg-decor {
+        background-attachment: scroll !important;
+    }
 }
 
 /* Custom Design Overrides for Elegance */
@@ -1257,7 +1262,9 @@ input[type="radio"]:checked + .custom-radio::after {
     max-width: 100%;
     height: auto;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    box-shadow: none !important;
+    mix-blend-mode: multiply;
+    background: transparent !important;
 }
 .rings-img {
     max-width: 250px;
@@ -1346,27 +1353,30 @@ input[type="radio"]:checked + .custom-radio::after {
     margin-bottom: 15px;
 }
 .monogram-letter {
+    font-family: 'Pinyon Script', 'KZ-2', cursive;
+    font-weight: 400;
     line-height: 1;
     display: inline-block;
+    color: #957332;
+    text-shadow: 0 2px 15px rgba(149, 115, 50, 0.25);
 }
 .monogram-letter.style-1 {
-    font-family: 'KZ-2', cursive;
-    font-weight: 800; /* Ceremonious Script (Bold calligraphic loops) */
-    font-size: 4.1rem;
-    color: #957332;
-    transform: rotate(-6deg) translateY(-2px);
+    font-size: 4.5rem;
+    transform: rotate(-3deg);
 }
 .monogram-letter.style-2 {
-    font-family: 'KZ-2', cursive;
-    font-weight: 600; /* Rosa Marena (Matching calligraphic loops, slightly different flourish style) */
-    font-size: 3.8rem;
-    color: #7b623b;
-    transform: rotate(6deg) translateY(3px);
+    font-size: 4.5rem;
+    transform: rotate(3deg);
 }
-.monogram-divider {
-    display: flex;
-    align-items: center;
-    opacity: 0.75;
+.monogram-amp {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 2.3rem;
+    color: #b18f6a;
+    font-weight: 400;
+    margin: 0 10px;
+    position: relative;
+    top: -5px;
 }
 
 .hero-names {

@@ -104,10 +104,11 @@
             <!-- Dots -->
             <div class="welcome-dots"><span></span><span></span></div>
             <div class="welcome-names-wrapper">
-                <div class="welcome-initials">А <span class="ampersand">&amp;</span> А</div>
-                <h1 class="welcome-names">Алтынбек &amp; Аяужан</h1>
-                <p class="welcome-invite">Шақыру билеті</p>
-                <div class="welcome-date">26.09.2026</div>
+                <div class="hero-monogram welcome-monogram">
+                    <span class="monogram-letter style-1">А</span>
+                    <span class="monogram-amp">&amp;</span>
+                    <span class="monogram-letter style-2">А</span>
+                </div>
             </div>
             <button id="welcome-btn" class="welcome-btn" onclick="openInvitation()">Ашу</button>
             <!-- Vertical gold line bottom -->
@@ -321,13 +322,7 @@
                     <!-- Monogram placed under the arch scene, above names -->
                     <div class="hero-monogram">
                         <span class="monogram-letter style-1">А</span>
-                        <span class="monogram-divider">
-                            <svg width="40" height="40" viewBox="0 0 40 40">
-                                <path d="M20,4 L20,36 M4,20 L36,20" stroke="#b18f6a" stroke-width="1" opacity="0.5"/>
-                                <circle cx="20" cy="20" r="6" fill="none" stroke="#b18f6a" stroke-width="1.2"/>
-                                <circle cx="20" cy="20" r="2" fill="#b18f6a"/>
-                            </svg>
-                        </span>
+                        <span class="monogram-amp">&amp;</span>
                         <span class="monogram-letter style-2">А</span>
                     </div>
                     <h2 class="hero-names">Алтынбек <span class="amp-divider">және</span> Аяужан</h2>
@@ -580,27 +575,42 @@
                 
                 <form id="rsvp-form">
                     <div class="input-group">
+                        <input type="text" name="surname" id="user-surname" required placeholder=" ">
+                        <label for="user-surname">Тегіңіз (Фамилия)</label>
+                    </div>
+
+                    <div class="input-group">
                         <input type="text" name="name" id="user-name" required placeholder=" ">
-                        <label for="user-name" data-key="label_name">Аты-жөніңіз</label>
+                        <label for="user-name">Есіміңіз (Имя)</label>
                     </div>
 
                     <div class="form-group">
-                        <label class="group-label" data-key="label_attendance">Тойға келесіз бе?</label>
+                        <label class="group-label">Қонақтар саны (Количество)</label>
                         <div class="radio-options">
                             <label class="radio-label">
-                                <input type="radio" name="attendance" value="Attending" required>
+                                <input type="radio" name="count" value="1" required>
                                 <span class="custom-radio"></span>
-                                <span data-key="opt_yes">Қуана қатысамын</span>
+                                <span>1 адам</span>
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="attendance" value="With Plus One">
+                                <input type="radio" name="count" value="2">
                                 <span class="custom-radio"></span>
-                                <span data-key="opt_plus">Жұбыммен келемін</span>
+                                <span>2 адам (жұбыммен)</span>
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="attendance" value="Not Attending">
+                                <input type="radio" name="count" value="3">
                                 <span class="custom-radio"></span>
-                                <span data-key="opt_no">Қатыса алмаймын</span>
+                                <span>3 адам</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="count" value="4">
+                                <span class="custom-radio"></span>
+                                <span>4 адам</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="count" value="0">
+                                <span class="custom-radio"></span>
+                                <span>0 (Келе алмаймын)</span>
                             </label>
                         </div>
                     </div>

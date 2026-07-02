@@ -6,29 +6,36 @@
 
 function doPost(e) {
   try {
-    // Парсим входящие данные
-    var data = JSON.parse(e.postData.contents);
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = e.parameter || {};
     
-    // Получаем активную таблицу
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheets()[0]; // Используем первый лист
-    
-    // Если заголовков еще нет, можно их добавить (опционально)
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow(["Время", "Имя", "Статус присутствия", "Напитки"]);
+    // Если данные пришли как JSON (из fetch), парсим их
+    if (e.postData && e.postData.contents) {
+      try {
+        var jsonData = JSON.parse(e.postData.contents);
+        for (var key in jsonData) {
+          data[key] = jsonData[key];
+        }
+      } catch(err) {}
     }
     
-    // Добавляем новую строку
+    // 1. Получаем номер по порядку
+    var lastRow = sheet.getLastRow();
+    var rowNumber = lastRow > 0 ? lastRow : 1;
+    
+    // 2. Добавляем данные в таблицу: Номер, Фамилия, Имя, Количество, Статус
     sheet.appendRow([
-      data.timestamp,
-      data.name,
-      data.attendance,
-      data.drinks
+      rowNumber, 
+      data.lastName || data.surname || "", 
+      data.firstName || data.name || "", 
+      data.persons || data.count || 0,
+      data.attendance || ""
     ]);
     
-    // Возвращаем успех
-    return ContentService.createTextOutput(JSON.stringify({ "status": "success" }))
-      .setMimeType(ContentService.MimeType.JSON);
+    // 3. Автоматическое обновление формулы "Итог" в ячейке E1
+    sheet.getRange("E1").setFormula('= "ИТОГО ГОСТЕЙ: " & SUM(D:D)');
+    
+    return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
       
   } catch (error) {
     // В случае ошибки возвращаем сообщение об ошибке

@@ -63,12 +63,27 @@ const musicIcon = document.getElementById('music-icon');
 const musicText = document.getElementById('music-text');
 let isPlaying = false;
 
+if (bgMusic) {
+    bgMusic.volume = 0.35; // Комфортная негромкая музыка
+}
+
+// Автовыключение музыки при сворачивании браузера или переключении вкладки
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden && isPlaying && bgMusic) {
+        bgMusic.pause();
+        musicIcon.innerText = '🎵';
+        musicText.innerText = translations[currentLang].audio_play;
+        isPlaying = false;
+    }
+});
+
 musicBtn.addEventListener('click', () => {
     if (isPlaying) {
         bgMusic.pause();
         musicIcon.innerText = '🎵';
         musicText.innerText = translations[currentLang].audio_play;
     } else {
+        bgMusic.volume = 0.35;
         bgMusic.play().catch(e => console.log("Auto-play blocked"));
         musicIcon.innerText = '⏸';
         musicText.innerText = translations[currentLang].audio_stop;
@@ -84,6 +99,7 @@ function openInvitation() {
         
         // Автоматический запуск музыки при открытии
         if (bgMusic) {
+            bgMusic.volume = 0.35;
             bgMusic.play().then(() => {
                 isPlaying = true;
                 musicIcon.innerText = '⏸';
@@ -143,8 +159,8 @@ const rsvpForm = document.getElementById('rsvp-form');
 const submitBtn = document.getElementById('submit-btn');
 const btnText = document.getElementById('btn-text');
 
-// ЗАМЕНИТЕ ЭТОТ URL ПОСЛЕ РАЗВЕРТЫВАНИЯ GOOGLE APPS SCRIPT
-const GOOGLE_SCRIPT_URL = 'ВАШ_URL_СКРИПТА_ЗДЕСЬ';
+// Подключенная ссылка Google Apps Script
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfN_qa5t8Voduj5Zx4m6e0p5-mDvtgz-Dfk3QOPPjuVDu063VDjLj913CNcQaVKXO8RA/exec';
 
 rsvpForm.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -154,16 +170,23 @@ rsvpForm.addEventListener('submit', function(e) {
     btnText.innerText = translations[currentLang].btn_sending;
 
     const formData = new FormData(this);
-    const attendance = formData.get('attendance');
-    const name = formData.get('name');
+    const surname = formData.get('surname') || '';
+    const name = formData.get('name') || '';
+    const count = formData.get('count') || '';
 
     const data = {
-        timestamp: new Date().toLocaleString(),
+        lastName: surname,
+        firstName: name,
+        persons: count,
+        attendance: count === "0" ? "Не приду" : "Приду (" + count + " чел.)",
+        // Дублируем для обратной совместимости:
+        surname: surname,
         name: name,
-        attendance: attendance,
+        count: count,
+        timestamp: surname
     };
 
-    // Отправка данных
+    // Отправка данных (в формате JSON и URLSearchParams для 100% совместимости с Apps Script)
     fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors', // Важно для Google Apps Script
