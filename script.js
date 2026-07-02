@@ -7,7 +7,7 @@ const translations = {
         invitation_title: "Құрметті қонақтар!",
         invitation_main: "Сіздерді Балаларымыздың үйлену тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!",
         location_title: "Мекен-жайымыз",
-        location_address: "Nomad Hall мейрамханасы, Астана",
+        location_address: "Гайса Аязбаев көшесі, 18",
         btn_map: "Картадан ашу",
         dresscode_title: "Дресс-код және той түстері",
         dress_note: "Біз сіздерді дәл өздеріңіздей әдемі кешкі образда күтеміз!",
@@ -186,15 +186,22 @@ rsvpForm.addEventListener('submit', function(e) {
         timestamp: surname
     };
 
-    // Отправка данных (в формате JSON и URLSearchParams для 100% совместимости с Apps Script)
-    fetch(GOOGLE_SCRIPT_URL, {
+    // Формируем параметры в формате URLSearchParams (чтобы в Apps Script заполнился e.parameter)
+    const params = new URLSearchParams();
+    for (const key in data) {
+        params.append(key, data[key]);
+    }
+    
+    // Передаем параметры и в URL, и в теле POST-запроса (гарантия 100% получения в e.parameter)
+    const requestUrl = GOOGLE_SCRIPT_URL + '?' + params.toString();
+
+    fetch(requestUrl, {
         method: 'POST',
-        mode: 'no-cors', // Важно для Google Apps Script
-        cache: 'no-cache',
+        mode: 'no-cors',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify(data)
+        body: params
     })
     .then(() => {
         // Поскольку mode: 'no-cors', мы не получим тело ответа, 
