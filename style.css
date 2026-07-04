@@ -93,6 +93,7 @@ html {
 
 body {
     font-family: var(--sans), sans-serif;
+    /* Основной фон — тёплый кремовый. Внешняя картинка только поверх как декор */
     background-color: #f5f0e8;
     background-image: url('https://static.tildacdn.pro/tild3234-3532-4665-a239-653162346463/4491a4097bb0270023a5.jpg');
     background-size: cover;
@@ -1211,6 +1212,17 @@ input[type="radio"]:checked + .custom-radio::after {
     body, .welcome-overlay, .bg-decor {
         background-attachment: scroll !important;
     }
+    /* На мобильных iOS background-attachment: fixed не работает —
+       убираем фоновую картинку, оставляем только надёжный цвет,
+       чтобы не было шахматных квадратов нигде на странице */
+    body {
+        background-image: none !important;
+        background-color: #f5f0e8 !important;
+    }
+    /* Сброс маски body::before т.к. картинки нет */
+    body::before {
+        background: rgba(245, 240, 232, 0.0) !important;
+    }
 }
 
 /* Custom Design Overrides for Elegance */
@@ -1361,7 +1373,8 @@ input[type="radio"]:checked + .custom-radio::after {
     border-radius: 150px 150px 8px 8px;
     border: none;
     padding: 0;
-    background: transparent;
+    background: transparent !important;
+    mix-blend-mode: multiply !important;
     box-shadow: none;
     position: relative;
     z-index: 5;

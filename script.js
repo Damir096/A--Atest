@@ -94,19 +94,8 @@ musicBtn.addEventListener('click', () => {
 let autoScrollRaf = null;
 let isAutoScrolling = false;
 
-// Остановить автопрокрутку при любом действии пользователя (как в R-D-main)
-const stopAutoScroll = () => {
-    if (isAutoScrolling) {
-        isAutoScrolling = false;
-    }
-};
-
-window.addEventListener('wheel', stopAutoScroll, { passive: true });
-window.addEventListener('touchmove', stopAutoScroll, { passive: true });
-window.addEventListener('mousedown', stopAutoScroll);
-
-// Функция прокрутки — точная копия механики из R-D-main (scrollBy + rAF)
-// scrollSpeed: 0.4px за каждый кадр (~24px/сек при 60fps) — ощущается как «читаешь сам по себе»
+// Функция прокрутки — механика из R-D-main (scrollBy + rAF)
+// 0.4px за кадр = ~24px/сек при 60fps — читается само по себе
 const scrollSpeed = 0.4;
 
 function autoScrollStep() {
@@ -117,11 +106,18 @@ function autoScrollStep() {
     const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
     const totalHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
 
-    // Останавливаемся у самого низа страницы
     if ((window.innerHeight + scrollPos) >= totalHeight - 5) {
         isAutoScrolling = false;
     } else {
         autoScrollRaf = requestAnimationFrame(autoScrollStep);
+    }
+}
+
+// Остановка при действии пользователя
+function stopAutoScroll() {
+    if (isAutoScrolling) {
+        isAutoScrolling = false;
+        if (autoScrollRaf) cancelAnimationFrame(autoScrollRaf);
     }
 }
 
@@ -144,11 +140,17 @@ function openInvitation() {
         // Разблокировка скролла
         document.body.classList.remove('scroll-locked');
         
-        // Запускаем автоскролл через 1с (пока шторки раздвигаются)
+        // Запускаем автоскролл через 1.2с — после того как шторка убралась
+        // Слушатели остановки добавляем ТОЛЬКО здесь, чтобы тап по кнопке не отменял скролл
         setTimeout(() => {
             isAutoScrolling = true;
-            requestAnimationFrame(autoScrollStep);
-        }, 1000);
+            autoScrollRaf = requestAnimationFrame(autoScrollStep);
+
+            // Добавляем слушатели только ПОСЛЕ старта скролла
+            window.addEventListener('wheel', stopAutoScroll, { passive: true, once: false });
+            window.addEventListener('touchmove', stopAutoScroll, { passive: true, once: false });
+            window.addEventListener('mousedown', stopAutoScroll, { once: false });
+        }, 1200);
         
         // Скрытие элемента из DOM после завершения анимации (3.5с)
         setTimeout(() => {
