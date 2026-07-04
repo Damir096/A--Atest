@@ -91,6 +91,62 @@ musicBtn.addEventListener('click', () => {
     isPlaying = !isPlaying;
 });
 
+let autoScrollInterval = null;
+let isAutoScrolling = false;
+
+// Остановить автопрокрутку при любом действии пользователя
+function stopAutoScroll() {
+    if (isAutoScrolling) {
+        isAutoScrolling = false;
+        cancelAnimationFrame(autoScrollInterval);
+        
+        // Удаляем слушатели событий взаимодействия
+        window.removeEventListener('wheel', stopAutoScroll);
+        window.removeEventListener('touchstart', stopAutoScroll);
+        window.removeEventListener('mousedown', stopAutoScroll);
+        window.removeEventListener('keydown', stopAutoScroll);
+    }
+}
+
+// Запустить медленную автоматическую прокрутку до самого низа страницы
+function startAutoScrollToBottom() {
+    isAutoScrolling = true;
+    
+    // Добавляем слушатели для остановки при ручном скролле или нажатии
+    window.addEventListener('wheel', stopAutoScroll, { passive: true });
+    window.addEventListener('touchstart', stopAutoScroll, { passive: true });
+    window.addEventListener('mousedown', stopAutoScroll, { passive: true });
+    window.addEventListener('keydown', stopAutoScroll, { passive: true });
+
+    const startY = window.pageYOffset || document.documentElement.scrollTop;
+    const targetY = document.documentElement.scrollHeight - window.innerHeight;
+    const distance = targetY - startY;
+    
+    // Длительность прокрутки всей страницы (26 секунд для величественного и плавного чтения)
+    const duration = 26000; 
+    let startTime = null;
+
+    function step(timestamp) {
+        if (!isAutoScrolling) return;
+        if (!startTime) startTime = timestamp;
+        const progress = timestamp - startTime;
+        const percent = Math.min(progress / duration, 1);
+        
+        // Элегантная функция плавности (easeInOutSine): мягкий старт, ровное скольжение и нежное замедление в конце
+        const ease = 0.5 - Math.cos(percent * Math.PI) / 2;
+        const currentY = startY + distance * ease;
+        window.scrollTo(0, currentY);
+
+        if (progress < duration && currentY < targetY - 2) {
+            autoScrollInterval = window.requestAnimationFrame(step);
+        } else {
+            stopAutoScroll();
+        }
+    }
+
+    autoScrollInterval = window.requestAnimationFrame(step);
+}
+
 // --- 2.1 ОТКРЫТИЕ ШТОРКИ (WELCOME OVERLAY) ---
 function openInvitation() {
     const overlay = document.getElementById('welcome-overlay');
@@ -109,6 +165,11 @@ function openInvitation() {
         
         // Разблокировка скролла
         document.body.classList.remove('scroll-locked');
+        
+        // Медленно и плавно листаем страницу вниз до самого конца
+        setTimeout(() => {
+            startAutoScrollToBottom();
+        }, 1000); // Начинаем скролл через 1 секунду после открытия шторки
         
         // Скрытие элемента из DOM после завершения анимации (3.5с)
         setTimeout(() => {
@@ -186,22 +247,18 @@ rsvpForm.addEventListener('submit', function(e) {
         timestamp: surname
     };
 
-    // Формируем параметры в формате URLSearchParams (чтобы в Apps Script заполнился e.parameter)
-    const params = new URLSearchParams();
+    // Преобразуем данные в URLSearchParams для корректного заполнения e.parameter в Google Apps Script
+    const formDataParams = new URLSearchParams();
     for (const key in data) {
-        params.append(key, data[key]);
+        formDataParams.append(key, data[key]);
     }
-    
-    // Передаем параметры и в URL, и в теле POST-запроса (гарантия 100% получения в e.parameter)
-    const requestUrl = GOOGLE_SCRIPT_URL + '?' + params.toString();
 
-    fetch(requestUrl, {
+    // Отправка данных (в формате URLSearchParams для 100% совместимости с e.parameter в Apps Script)
+    fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: params
+        mode: 'no-cors', // Важно для Google Apps Script
+        cache: 'no-cache',
+        body: formDataParams
     })
     .then(() => {
         // Поскольку mode: 'no-cors', мы не получим тело ответа, 
@@ -238,3 +295,63 @@ if (colorSwatches.length > 0) {
         });
     });
 }
+
+/* ——————————————————————————————
+   7. ЭЛЕГАНТНЫЕ ПАДАЮЩИЕ ЦВЕТЫ И ЛЕПЕСТКИ (PREMIUM FLORAL EFFECTS)
+—————————————————————————————— */
+const FLORAL_ELEMENTS = [
+    '🌸', '💮', '🪷', '✨', '❀', '✿', '❁', '🤍', '🌸', '✨', '🪷'
+];
+const ANIMATION_TYPES = ['petal-fall-1', 'petal-fall-2', 'petal-fall-3'];
+
+function spawnPetal() {
+    const petal = document.createElement('span');
+    petal.className = 'petal';
+    
+    // Выбираем случайный элемент
+    const item = FLORAL_ELEMENTS[Math.floor(Math.random() * FLORAL_ELEMENTS.length)];
+    petal.textContent = item;
+    
+    // Случайная позиция по горизонтали (от 2% до 96% ширины экрана)
+    petal.style.left = (Math.random() * 94 + 2) + 'vw';
+    
+    // Случайная длительность падения (от 6.5 до 12 секунд для плавной и неторопливой анимации)
+    const duration = 6.5 + Math.random() * 5.5;
+    petal.style.animationDuration = duration + 's';
+    
+    // Случайная траектория анимации
+    const animType = ANIMATION_TYPES[Math.floor(Math.random() * ANIMATION_TYPES.length)];
+    petal.style.animationName = animType;
+    
+    // Случайная задержка
+    petal.style.animationDelay = (Math.random() * 0.5) + 's';
+    
+    // Случайный размер (от 16px до 28px) с эффектом глубины
+    const size = 16 + Math.random() * 12;
+    petal.style.fontSize = size + 'px';
+    
+    // Эффект боке (глубины резкости): маленькие элементы чуть размыты и прозрачны
+    if (size < 19) {
+        petal.style.filter = 'drop-shadow(0 2px 5px rgba(177, 143, 106, 0.2)) blur(0.6px)';
+        petal.style.opacity = '0.7';
+    } else if (size > 24) {
+        petal.style.filter = 'drop-shadow(0 6px 12px rgba(177, 143, 106, 0.35))';
+        petal.style.zIndex = '10000';
+    }
+    
+    document.body.appendChild(petal);
+    
+    // Удаляем элемент после завершения анимации
+    setTimeout(() => {
+        if (petal && petal.parentNode) {
+            petal.remove();
+        }
+    }, (duration + 1) * 1000);
+}
+
+// Запускаем генерацию лепестков
+setTimeout(() => {
+    spawnPetal();
+    spawnPetal();
+}, 1200);
+setInterval(spawnPetal, 1800);

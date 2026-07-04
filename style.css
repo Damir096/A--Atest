@@ -283,8 +283,21 @@ body.scroll-locked {
     transform: rotate(180deg);
 }
 
+.welcome-rings-wrapper {
+    margin: 10px auto 15px;
+    text-align: center;
+}
+.welcome-rings-img {
+    max-width: 130px;
+    height: auto;
+    mix-blend-mode: multiply;
+    background: transparent !important;
+    display: block;
+    margin: 0 auto;
+}
+
 .welcome-monogram {
-    margin: 30px 0 35px !important;
+    margin: 15px 0 25px !important;
 }
 .welcome-monogram .monogram-letter.style-1,
 .welcome-monogram .monogram-letter.style-2 {
@@ -1416,4 +1429,73 @@ input[type="radio"]:checked + .custom-radio::after {
     color: #957332;
     font-style: normal;
     margin: 0 6px;
+}
+
+/* ====================================================
+   12. ЭЛЕГАНТНЫЕ ПАДАЮЩИЕ ЦВЕТЫ И ЛЕПЕСТКИ (PREMIUM FLORAL EFFECTS)
+   ==================================================== */
+.petal {
+    position: fixed;
+    top: -50px;
+    pointer-events: none;
+    z-index: 9999;
+    user-select: none;
+    will-change: transform, opacity;
+    filter: drop-shadow(0 4px 8px rgba(177, 143, 106, 0.25));
+}
+
+@keyframes petal-fall-1 {
+    0% {
+        transform: translateY(-50px) translateX(0) rotate3d(1, 1, 0, 0deg) scale(0.8);
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.9;
+    }
+    50% {
+        transform: translateY(50vh) translateX(40px) rotate3d(1, 0.5, 1, 180deg) scale(1.05);
+    }
+    85% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(105vh) translateX(-20px) rotate3d(1, 1, 0, 360deg) scale(0.9);
+        opacity: 0;
+    }
+}
+
+@keyframes petal-fall-2 {
+    0% {
+        transform: translateY(-50px) translateX(0) rotate(0deg) scale(0.9);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.85;
+        transform: translateY(20vh) translateX(-35px) rotate(-90deg) scale(1.08);
+    }
+    60% {
+        transform: translateY(65vh) translateX(35px) rotate(180deg) scale(0.95);
+    }
+    100% {
+        transform: translateY(105vh) translateX(-15px) rotate(310deg) scale(0.85);
+        opacity: 0;
+    }
+}
+
+@keyframes petal-fall-3 {
+    0% {
+        transform: translateY(-50px) translateX(0) rotateY(0deg) rotateZ(0deg) scale(0.7);
+        opacity: 0;
+    }
+    25% {
+        opacity: 0.95;
+        transform: translateY(30vh) translateX(25px) rotateY(180deg) rotateZ(90deg) scale(1);
+    }
+    75% {
+        transform: translateY(80vh) translateX(-30px) rotateY(360deg) rotateZ(270deg) scale(0.9);
+    }
+    100% {
+        transform: translateY(105vh) translateX(15px) rotateY(540deg) rotateZ(360deg) scale(0.75);
+        opacity: 0;
+    }
 }
