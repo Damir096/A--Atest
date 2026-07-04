@@ -91,60 +91,38 @@ musicBtn.addEventListener('click', () => {
     isPlaying = !isPlaying;
 });
 
-let autoScrollInterval = null;
+let autoScrollRaf = null;
 let isAutoScrolling = false;
 
-// Остановить автопрокрутку при любом действии пользователя
-function stopAutoScroll() {
+// Остановить автопрокрутку при любом действии пользователя (как в R-D-main)
+const stopAutoScroll = () => {
     if (isAutoScrolling) {
         isAutoScrolling = false;
-        cancelAnimationFrame(autoScrollInterval);
-        
-        // Удаляем слушатели событий взаимодействия
-        window.removeEventListener('wheel', stopAutoScroll);
-        window.removeEventListener('touchstart', stopAutoScroll);
-        window.removeEventListener('mousedown', stopAutoScroll);
-        window.removeEventListener('keydown', stopAutoScroll);
     }
-}
+};
 
-// Запустить медленную автоматическую прокрутку до самого низа страницы
-function startAutoScrollToBottom() {
-    isAutoScrolling = true;
-    
-    // Добавляем слушатели для остановки при ручном скролле или нажатии
-    window.addEventListener('wheel', stopAutoScroll, { passive: true });
-    window.addEventListener('touchstart', stopAutoScroll, { passive: true });
-    window.addEventListener('mousedown', stopAutoScroll, { passive: true });
-    window.addEventListener('keydown', stopAutoScroll, { passive: true });
+window.addEventListener('wheel', stopAutoScroll, { passive: true });
+window.addEventListener('touchmove', stopAutoScroll, { passive: true });
+window.addEventListener('mousedown', stopAutoScroll);
 
-    const startY = window.pageYOffset || document.documentElement.scrollTop;
-    const targetY = document.documentElement.scrollHeight - window.innerHeight;
-    const distance = targetY - startY;
-    
-    // Длительность прокрутки всей страницы (26 секунд для величественного и плавного чтения)
-    const duration = 26000; 
-    let startTime = null;
+// Функция прокрутки — точная копия механики из R-D-main (scrollBy + rAF)
+// scrollSpeed: 0.4px за каждый кадр (~24px/сек при 60fps) — ощущается как «читаешь сам по себе»
+const scrollSpeed = 0.4;
 
-    function step(timestamp) {
-        if (!isAutoScrolling) return;
-        if (!startTime) startTime = timestamp;
-        const progress = timestamp - startTime;
-        const percent = Math.min(progress / duration, 1);
-        
-        // Элегантная функция плавности (easeInOutSine): мягкий старт, ровное скольжение и нежное замедление в конце
-        const ease = 0.5 - Math.cos(percent * Math.PI) / 2;
-        const currentY = startY + distance * ease;
-        window.scrollTo(0, currentY);
+function autoScrollStep() {
+    if (!isAutoScrolling) return;
 
-        if (progress < duration && currentY < targetY - 2) {
-            autoScrollInterval = window.requestAnimationFrame(step);
-        } else {
-            stopAutoScroll();
-        }
+    window.scrollBy(0, scrollSpeed);
+
+    const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+    const totalHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+
+    // Останавливаемся у самого низа страницы
+    if ((window.innerHeight + scrollPos) >= totalHeight - 5) {
+        isAutoScrolling = false;
+    } else {
+        autoScrollRaf = requestAnimationFrame(autoScrollStep);
     }
-
-    autoScrollInterval = window.requestAnimationFrame(step);
 }
 
 // --- 2.1 ОТКРЫТИЕ ШТОРКИ (WELCOME OVERLAY) ---
@@ -166,10 +144,11 @@ function openInvitation() {
         // Разблокировка скролла
         document.body.classList.remove('scroll-locked');
         
-        // Медленно и плавно листаем страницу вниз до самого конца
+        // Запускаем автоскролл через 1с (пока шторки раздвигаются)
         setTimeout(() => {
-            startAutoScrollToBottom();
-        }, 1000); // Начинаем скролл через 1 секунду после открытия шторки
+            isAutoScrolling = true;
+            requestAnimationFrame(autoScrollStep);
+        }, 1000);
         
         // Скрытие элемента из DOM после завершения анимации (3.5с)
         setTimeout(() => {

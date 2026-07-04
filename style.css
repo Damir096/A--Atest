@@ -187,7 +187,8 @@ body.scroll-locked {
     background-image: url('https://static.tildacdn.pro/tild3234-3532-4665-a239-653162346463/4491a4097bb0270023a5.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    /* background-attachment: fixed НЕ работает на iOS Safari — используем scroll */
+    background-attachment: scroll;
     transition: transform 3.5s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
@@ -1239,9 +1240,12 @@ input[type="radio"]:checked + .custom-radio::after {
     max-width: 250px;
     border-radius: 200px 200px 10px 10px;
     border: 3px solid var(--gold);
-    padding: 5px;
-    background: #fff;
+    padding: 0;
+    /* Убираем белый фон — он создавал шахматные квадратики вокруг PNG-иллюстрации */
+    background: transparent;
     box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    /* mix-blend-mode: multiply — белый/серый фон PNG сливается с цветом страницы */
+    mix-blend-mode: multiply;
 }
 .wedding-day.heart {
     position: relative;
