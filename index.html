@@ -95,27 +95,24 @@
     </div>
 
     <!-- 2. WELCOME OVERLAY (Шторка) -->
-    <div id="welcome-overlay" class="welcome-overlay">
-        <div class="welcome-left"></div>
-        <div class="welcome-right"></div>
+    <div id="welcome-overlay" class="welcome-overlay" onclick="openInvitation()">
+        <div class="welcome-left">
+            <div class="curtain-content left-content">
+                <div class="curtain-name">Алтынбек</div>
+                <div class="curtain-sub">Тойға</div>
+            </div>
+        </div>
+        <div class="welcome-right">
+            <div class="curtain-content right-content">
+                <div class="curtain-name">Аяужан</div>
+                <div class="curtain-sub">шақыру</div>
+            </div>
+        </div>
         <div class="welcome-card">
             <!-- Vertical gold line top -->
             <div class="welcome-vline top"></div>
-            <!-- Dots -->
-            <div class="welcome-dots"><span></span><span></span></div>
-            <!-- Кольца видны сразу -->
-            <div class="welcome-rings-wrapper">
-                <img src="rings.jpg" alt="Rings" class="welcome-rings-img">
-            </div>
-
-            <div class="welcome-names-wrapper">
-                <div class="hero-monogram welcome-monogram">
-                    <span class="monogram-letter style-1">А</span>
-                    <span class="monogram-amp">&amp;</span>
-                    <span class="monogram-letter style-2">А</span>
-                </div>
-            </div>
-            <button id="welcome-btn" class="welcome-btn" onclick="openInvitation()">Ашу</button>
+            <!-- Tap hint (only Kazakh) -->
+            <div id="welcome-tap-hint" class="welcome-tap">ЭКРАНҒА БАСЫҢЫЗ</div>
             <!-- Vertical gold line bottom -->
             <div class="welcome-vline bottom"></div>
         </div>
@@ -372,7 +369,7 @@
     <!-- Calendar Section -->
     <section class="section calendar-section">
         <div class="container reveal">
-            <h3 class="calendar-title" data-key="calendar_title">Қыркүйек 2026</h3>
+            <h3 class="calendar-title" data-key="calendar_title">26 Қыркүйек 2026</h3>
             <div class="calendar-wrapper">
                 <div class="calendar-header">
                     <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span class="weekend">Сб</span><span class="weekend">Вс</span>
@@ -548,7 +545,6 @@
         <div class="container">
             <div class="rsvp-card reveal">
                 <h2 data-key="rsvp_title">Қатысуды растау</h2>
-                <p class="rsvp-note" data-key="rsvp_subtitle">Өтінемін, 20.07.2026 дейін жауап беріңіз.</p>
                 
                 <form id="rsvp-form">
                     <div class="input-group">

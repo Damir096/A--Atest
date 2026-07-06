@@ -25,7 +25,7 @@ const translations = {
         unit_seconds: "Секунд",
         timer_ended: "Той басталды!",
         rsvp_title: "Қатысуды растау",
-        rsvp_subtitle: "Өтінемін, 15.09.2026 дейін жауап беріңіз.",
+        rsvp_subtitle: "",
         label_name: "Аты-жөніңіз",
         label_attendance: "Тойға келесіз бе?",
         opt_yes: "Қуана қатысамын",
@@ -36,7 +36,7 @@ const translations = {
         status_ok: "Рахмет! Сіздің жауабыңыз қабылданды.",
         status_error: "Қате кетті. Қайта көріңіз немесе бізге хабарласыңыз.",
         hosts_label: "Той иесі:",
-        calendar_title: "Қыркүйек 2026",
+        calendar_title: "26 Қыркүйек 2026",
         calendar_note: "Бұл күнді күнтізбеге белгілеп қойыңыздар!"
     }
 };
@@ -93,6 +93,7 @@ musicBtn.addEventListener('click', () => {
 
 let autoScrollRaf = null;
 let isAutoScrolling = false;
+let exactScrollPos = 0;
 
 // Функция прокрутки — механика из R-D-main (scrollBy + rAF)
 // 0.4px за кадр = ~24px/сек при 60fps — читается само по себе
@@ -101,13 +102,14 @@ const scrollSpeed = 0.4;
 function autoScrollStep() {
     if (!isAutoScrolling) return;
 
-    window.scrollBy(0, scrollSpeed);
+    exactScrollPos += scrollSpeed;
+    window.scrollTo(0, exactScrollPos);
 
     const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
     const totalHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
 
     if ((window.innerHeight + scrollPos) >= totalHeight - 5) {
-        isAutoScrolling = false;
+        stopAutoScroll();
     } else {
         autoScrollRaf = requestAnimationFrame(autoScrollStep);
     }
@@ -118,45 +120,54 @@ function stopAutoScroll() {
     if (isAutoScrolling) {
         isAutoScrolling = false;
         if (autoScrollRaf) cancelAnimationFrame(autoScrollRaf);
+        document.documentElement.style.scrollBehavior = '';
     }
 }
 
 // --- 2.1 ОТКРЫТИЕ ШТОРКИ (WELCOME OVERLAY) ---
 function openInvitation() {
     const overlay = document.getElementById('welcome-overlay');
-    if (overlay) {
-        overlay.classList.add('opened');
-        
-        // Автоматический запуск музыки при открытии
-        if (bgMusic) {
-            bgMusic.volume = 0.35;
-            bgMusic.play().then(() => {
-                isPlaying = true;
-                musicIcon.innerText = '⏸';
-                musicText.innerText = translations[currentLang].audio_stop;
-            }).catch(e => console.log("Autoplay blocked or failed:", e));
-        }
-        
-        // Разблокировка скролла
-        document.body.classList.remove('scroll-locked');
-        
-        // Запускаем автоскролл через 1.2с — после того как шторка убралась
-        // Слушатели остановки добавляем ТОЛЬКО здесь, чтобы тап по кнопке не отменял скролл
-        setTimeout(() => {
-            isAutoScrolling = true;
-            autoScrollRaf = requestAnimationFrame(autoScrollStep);
-
-            // Добавляем слушатели только ПОСЛЕ старта скролла
-            window.addEventListener('wheel', stopAutoScroll, { passive: true, once: false });
-            window.addEventListener('touchmove', stopAutoScroll, { passive: true, once: false });
-            window.addEventListener('mousedown', stopAutoScroll, { once: false });
-        }, 1200);
-        
-        // Скрытие элемента из DOM после завершения анимации (3.5с)
-        setTimeout(() => {
-            overlay.style.display = 'none';
-        }, 3500);
+    if (!overlay || overlay.classList.contains('opened')) return;
+    
+    overlay.classList.add('opened');
+    
+    // Автоматический запуск музыки при открытии
+    if (bgMusic) {
+        bgMusic.volume = 0.35;
+        bgMusic.play().then(() => {
+            isPlaying = true;
+            musicIcon.innerText = '⏸';
+            musicText.innerText = translations[currentLang].audio_stop;
+        }).catch(e => console.log("Autoplay blocked or failed:", e));
     }
+    
+    // Разблокировка скролла
+    document.body.classList.remove('scroll-locked');
+    
+    // Запускаем автоскролл через 1.5с — после того как шторка убралась
+    setTimeout(() => {
+        isAutoScrolling = true;
+        document.documentElement.style.scrollBehavior = 'auto';
+        exactScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+        autoScrollRaf = requestAnimationFrame(autoScrollStep);
+
+        // Добавляем слушатели только ПОСЛЕ старта скролла
+        window.addEventListener('wheel', stopAutoScroll, { passive: true, once: false });
+        window.addEventListener('touchmove', stopAutoScroll, { passive: true, once: false });
+        window.addEventListener('mousedown', stopAutoScroll, { once: false });
+        window.addEventListener('touchstart', stopAutoScroll, { passive: true, once: false });
+        window.addEventListener('keydown', stopAutoScroll, { once: false });
+    }, 1500);
+    
+    // Скрытие элемента из DOM после завершения анимации (3.5с)
+    setTimeout(() => {
+        overlay.style.display = 'none';
+    }, 3500);
+}
+
+const welcomeOverlayElem = document.getElementById('welcome-overlay');
+if (welcomeOverlayElem) {
+    welcomeOverlayElem.addEventListener('click', openInvitation);
 }
 
 // --- 3. ТАЙМЕР ОБРАТНОГО ОТСЧЕТА ---
